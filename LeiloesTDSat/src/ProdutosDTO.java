@@ -10,7 +10,20 @@
 public class ProdutosDTO {
     private Integer id;
     private String nome;
-    private Integer valor;
+    private double valor;
+
+    public ProdutosDTO() {
+    }
+
+    public ProdutosDTO(Integer id, String nome, double valor, String status) {
+        this.id = id;
+        this.nome = nome;
+        this.valor = valor;
+        this.status = status;
+    }
+    
+    
+    
     private String status;
 
     public Integer getId() {
@@ -21,7 +34,7 @@ public class ProdutosDTO {
         return nome;
     }
 
-    public Integer getValor() {
+    public double getValor() {
         return valor;
     }
 
