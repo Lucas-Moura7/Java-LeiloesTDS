@@ -22,7 +22,7 @@ public class ProdutosDAO {
     ResultSet resultset;
     ArrayList<ProdutosDTO> listagem = new ArrayList<>();
     
-    public void cadastrarProduto (ProdutosDTO produto){
+    public boolean cadastrarProduto (ProdutosDTO produto){
         conn = new conectaDAO().connectDB();
         String sql = "INSERT INTO produtos(nome, valor, status) VALUES (?, ?, ?)";
         try
@@ -34,6 +34,7 @@ public class ProdutosDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
         }
         
         
