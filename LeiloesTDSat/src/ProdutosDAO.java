@@ -38,10 +38,7 @@ public class ProdutosDAO {
         }
         
         
-        
-    
-    
-    public ArrayList<ProdutosDTO> listarProdutos(){
+     public ArrayList<ProdutosDTO> listarProdutos(){
         conn = new conectaDAO().connectDB();
         String sql = "SELECT * FROM produtos";
         
@@ -65,8 +62,49 @@ public class ProdutosDAO {
         return listagem;
     }
     
-    
-    
+     
+     public ArrayList<ProdutosDTO> listarProdutosVendidos(){
+        ArrayList<ProdutosDTO> listaVendidos = new ArrayList<>();
+        conn = new conectaDAO().connectDB();
+        String sql = "SELECT * FROM produtos WHERE status = 'Vendido'";
         
+        try(PreparedStatement prep = conn.prepareStatement(sql)){
+            resultset = prep.executeQuery();
+            
+            listaVendidos = new ArrayList<>();
+            
+            while (resultset.next()) {
+                ProdutosDTO produto = new ProdutosDTO();
+                produto.setId(resultset.getInt("id"));      
+                produto.setNome(resultset.getString("nome"));
+                produto.setValor((int) resultset.getDouble("valor"));
+                produto.setStatus(resultset.getString("status"));
+                listaVendidos.add(produto);
+            }
+        }catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Erro ao listar produtos: " + e.getMessage());
+    }
+         
+        return listaVendidos;
+    }
+    
+     
+     public boolean venderProduto(int idProduto) {
+           conn = new conectaDAO().connectDB();
+           String sql = "UPDATE produtos SET status = ? WHERE id = ?";
+
+           try (PreparedStatement prep = conn.prepareStatement(sql)) {
+        prep.setString(1, "Vendido");
+        prep.setInt(2, idProduto);
+        prep.executeUpdate();
+        return true;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+    
+    
+     
 }
 
